@@ -9,9 +9,9 @@ This project uses a graph propagation method with pretrained word vectors (GloVe
 1. Decompress `model.zip` to get some basic model files:`unzip model.zip`
 2. Decompress the particular HunPos package of `hunpos-1.0-linux.tgz, hunpos-1.0-macosx.tgz, hunpos-1.0-win.zip` according to the operating system, and rename the folder to `hunpos`.
 3. Download the following model files, put them in folder `model/` and unzip them:
-   - **Candidate concept lists:** <http://lfs.aminer.cn/misc/moocdata/toolkit/kp_list.zip>
-   - **English word vector:** <http://lfs.aminer.cn/misc/moocdata/toolkit/glove.6B.zip> You will find more information from <https://nlp.stanford.edu/projects/glove/>
-   - **Chinese word vector:** http://lfs.aminer.cn/misc/moocdata/toolkit/sgns.baidubaike.zip You will find more information from <https://github.com/Embedding/Chinese-Word-Vectors>
+   - **Candidate concept lists:** [kp_list.zip](http://lfs.aminer.cn/misc/moocdata/toolkit/kp_list.zip)
+   - **English word vector:** [glove.6B.zip](http://lfs.aminer.cn/misc/moocdata/toolkit/glove.6B.zip) You will find more information at [GloVe](https://nlp.stanford.edu/projects/glove/)
+   - **Chinese word vector:** [sgns.baidubaike.zip](http://lfs.aminer.cn/misc/moocdata/toolkit/sgns.baidubaike.zip) You will find more information at [Chinese-Word-Vectors](https://github.com/Embedding/Chinese-Word-Vectors)
 4. modify some path lists in `paras.py` if necessary.
 5. Install the requirements in `requirements.txt`: `pip install -r requirements.txt`
 
