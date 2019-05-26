@@ -1,0 +1,6 @@
+jieba
+requests
+bs4
+hanziconv
+nltk
+inflect
