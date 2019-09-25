@@ -59,35 +59,44 @@ def load_data_set():
 def load_seed_set():
     global seed_set
     seed_set = set()
-    with open(paras.path_list.seed, 'r', encoding='utf-8') as f:
-        for line in f:
-            seed_set.add(line.strip())
+    if paras.path_list.no_seed:
+        with open(paras.path_list.seed, 'r', encoding='utf-8') as f:
+            for line in f:
+                seed_set.add(line.strip())
 
 def init_score_list():
     global data, seed_set
-    score_list = data.shape[0]*[0]
+    score_list = np.zeros(data.shape[0])
     tot = 0
-    for seed in seed_set:
-        if seed in names:
-            score_list[names.index(seed)] = 1.0
+    if paras.path_list.no_seed:
+        for i in range(len(names)):
+            score_list[i] = 1.0
             tot += 1
-    print('seed number:', tot)
-    return np.array(score_list)
+    else:
+        for seed in seed_set:
+            if seed in names:
+                score_list[names.index(seed)] = 1.0
+                tot += 1
+    print('Seed number in candidates:', tot)
+    return score_list
 
-def cal_vector_distance(Top):
+def cal_vector_distance(max_num, t):
     K = 500
     global data, mat, co_occur
     dataT = data.T
     N = data.shape[0]
-    M = min(N, Top)
-    mat = [[0.0 for j in range(M)] for i in range(N)]
+    M = N if max_num == -1 else min(N, max_num)
+    mat = [[] for i in range(N)]
     i = 0
     while i < N:
         weight = np.dot(data[i:i+K], dataT)
         sorted_index = np.argsort(-weight)[:, 0:M]
         for k in range(min(K, N-i)):
             for j in range(M):
-                mat[i+k][j] = (weight[k, sorted_index[k, j]], sorted_index[k, j])
+                w = weight[k, sorted_index[k, j]]
+                tar = sorted_index[k, j]
+                if w > t:
+                    mat[i+k].append([w, tar])
         i += min(K, N-i)
         print('Progress:', i/N)
 
@@ -97,40 +106,36 @@ def calc_pow(x, y):
     else:
         return -math.pow(-x, y)
 
-def one_round(score_list, max_num, power):
-    new_score_list = data.shape[0]*[0]
-    tot = data.shape[0]*[0]
-    for source, source_score in enumerate(score_list):
-        for (weight, target) in mat[source][:max_num]:
-            s = source_score * weight
-            new_score_list[target] += s
-            tot[target] += 1
-    max_score = 0.0
-    for i in range(len(score_list)):
-        if tot[i] > 0:
-            new_score_list[i] /= calc_pow(tot[i], power)
-        max_score = max(max_score, abs(new_score_list[i]))
-    if max_score > 0.0:
-        for i in range(len(score_list)):
-            new_score_list[i] /= max_score
+def one_round(score_list):
+    new_score_list = np.zeros(data.shape[0])
+    for source, score in enumerate(score_list):
+        if score != 0.0:
+            for (weight, target) in mat[source]:
+                s = score * weight
+                new_score_list[target] += s
+    new_score_list /= np.max(new_score_list)
     return new_score_list
 
-def graph_propagation(score_list, iter_time, max_num, power):
+def graph_propagation(score_list, iter_time, decay):
+    final_score_list = score_list
     for i in range(0, iter_time):
-        print('Iteration'+str(i+1)+'...')
-        score_list = one_round(score_list, max_num, power)
-        score_list = np.array(score_list)
-    return score_list
+        print('Iteration round:', str(i+1))
+        score_list = one_round(score_list)
+        final_score_list += score_list * calc_pow(decay, i)
+    #return score_list
+    return final_score_list
 
-def kp_extraction(iter_time=3, max_num=250, power=1):
+def kp_extraction():
+    p = paras.parameter
+    iter_time, max_num, threshold, decay = p.iter_time, p.max_num, p.threshold, p.decay
     global model
     if model is None:
         model = model_load.get_model()
     load_data_set()
     load_seed_set()
-    cal_vector_distance(max_num)
+    cal_vector_distance(max_num, threshold)
     score_list = init_score_list()
-    score_list = graph_propagation(score_list, iter_time, max_num, power)
+    score_list = graph_propagation(score_list, iter_time, decay)
     sorted_list = np.argsort(-score_list)
     with open(paras.path_list.result, 'w', encoding='utf-8') as f:
         for index in sorted_list:

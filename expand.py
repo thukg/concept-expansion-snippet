@@ -18,7 +18,7 @@ def get_concepts():
         f.write('\n'.join(text))
     shutil.copy(paras.path_list.input_seed, paras.path_list.seed)
     prework.work()
-    K.kp_extraction(iter_time=paras.parameter.iter_time, max_num=paras.parameter.max_num, power=paras.parameter.power)
+    K.kp_extraction()
 
 if __name__ == '__main__':
     get_concepts()

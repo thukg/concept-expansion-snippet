@@ -25,16 +25,20 @@ class PathList:
         self.input = 'tmp/input'
         self.seed = 'tmp/seed'
         # example inputs
-        self.input_text = 'data/example_text.txt'
-        self.input_seed = 'data/example_seed.txt'
+        self.input_text = 'data/example_text_zh.txt'
+        self.input_seed = 'data/example_seed_zh.txt'
+        #self.input_text = 'data/en/captions/EN-Eco'
+        #self.input_seed = 'data/en/seeds/EN-Eco'
+        self.no_seed =  False  # if true, every candidate will be a seed
 
 class Parameter:
     def __init__(self):  # default setting
         self.language = 'zh'
         self.task = 'extract'
-        self.iter_time = 3
-        self.max_num = 250
-        self.power = 1
+        self.iter_time = 100
+        self.max_num = -1
+        self.threshold = 0.7
+        self.decay = 0.8
     
     def set_language(self, language):
         self.language = language
