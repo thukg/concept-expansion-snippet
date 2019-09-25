@@ -30,7 +30,7 @@ iter_time: --iter_time, -i
 max_num: --max_num, -m
 threshold: --threshold, -th
 decay: --decay, -d
-no_seed: no_seed
+no_seed: --no_seed, -ns
 ```
 
 The following path lists can be modified in `paras.py`:

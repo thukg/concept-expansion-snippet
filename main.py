@@ -34,7 +34,7 @@ def parse():
     parser.add_argument('--max_num', '-m', type=int, help='maximun edge number for modules/K.py, "-1" means unlimited')
     parser.add_argument('--threshold', '-th', type=float, help='threshold for modules/K.py')
     parser.add_argument('--decay', '-d', type=float, help='decay for modules/K.py')
-    parser.add_argument('noseed', help='no seed file, every candidate will be a seed')
+    parser.add_argument('--noseed', '-ns', type=bool, help='if True, every candidate will be a seed')
     args = parser.parse_args()
     if args.text:
         paras.path_list.input_text = args.text

@@ -59,7 +59,7 @@ def load_data_set():
 def load_seed_set():
     global seed_set
     seed_set = set()
-    if paras.path_list.no_seed:
+    if not paras.path_list.no_seed:
         with open(paras.path_list.seed, 'r', encoding='utf-8') as f:
             for line in f:
                 seed_set.add(line.strip())
