@@ -28,7 +28,9 @@ language: --language, -l
 task: --task, -t
 iter_time: --iter_time, -i
 max_num: --max_num, -m
-power: --power, -p
+threshold: --threshold, -th
+decay: --decay, -d
+no_seed: no_seed
 ```
 
 The following path lists can be modified in `paras.py`:
@@ -49,6 +51,6 @@ To crawl Google search snippets, you need VPN (for users in Mainland China).
 
 The crawler may be blocked by anti-crawler programs if you see `get snippet timeout`infomation too many times. Rerun the code will solve this problem most of the time.
 
-You can use other word vectors by modify path lists in `paras.py` or rewrite `modules\model_load.py`. It's normal taking a long time and consuming a lot of memory to load the word vector file.
+You can use other word vectors by modify path lists in `paras.py` or rewrite `modules/model_load.py`. It's normal taking a long time and consuming a lot of memory to load the word vector file.
 
 Make sure there is at least one seed word in the input text.
