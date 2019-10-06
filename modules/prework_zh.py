@@ -3,7 +3,7 @@ import jieba
 import jieba.posseg as pseg
 import json
 import math
-import paras
+import config
 import pickle
 
 def segment(data):
@@ -85,20 +85,20 @@ def json_gen(data):
         patterns.append(' '.join(flags))
         tot += 1
     print('json_gen:', tot)
-    with open(paras.path_list.tmp, 'w', encoding='utf-8') as f:
+    with open(config.path_list.tmp, 'w', encoding='utf-8') as f:
         for i in range(len(names)):
             encode = json.dumps(
                 {'name': names[i], 'gram': grams[i], 'gram_num': gram_num[i], 'pattern': patterns[i]}, ensure_ascii=False)
             f.write(encode + '\n')
 
 def work():
-    jieba.load_userdict(paras.path_list.jieba_dict)
-    with open(paras.path_list.zh_stopwords, 'r', encoding='utf-8') as f:
+    jieba.load_userdict(config.path_list.jieba_dict)
+    with open(config.path_list.zh_stopwords, 'r', encoding='utf-8') as f:
         stopwords = set(f.read().split('\n'))
-    with open(paras.path_list.zh_kp_list, 'r', encoding='utf-8') as f:
+    with open(config.path_list.zh_kp_list, 'r', encoding='utf-8') as f:
         lists = f.read().split('\n')
         print('load kp_list done.')
-    with open(paras.path_list.input, 'r', encoding='utf-8') as f:
+    with open(config.path_list.input, 'r', encoding='utf-8') as f:
         data = f.read().split('\n')
         res1 = segment(data)
         res2 = pattern_filter(lists, res1, stopwords)

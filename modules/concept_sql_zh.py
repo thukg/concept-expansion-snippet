@@ -5,12 +5,12 @@ from hanziconv import HanziConv
 import re
 import time
 import random
-import paras
+import config
 from urllib.parse import quote
 
 session_baidu = requests.Session()
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'
-conn = sqlite3.connect(paras.path_list.snippets_zh)
+conn = sqlite3.connect(config.path_list.snippets_zh)
 cursor = conn.cursor()
 cursor.execute('CREATE TABLE IF NOT EXISTS search (name TEXT PRIMARY KEY NOT NULL, page0 TEXT NOT NULL, page1 TEXT NOT NULL, page2 TEXT NOT NULL)')
 conn.commit()
@@ -44,7 +44,7 @@ def load_snippet_baidu(name):
     return snippets
 
 def get_snippet(concept):
-    conn = sqlite3.connect(paras.path_list.snippets_zh)
+    conn = sqlite3.connect(config.path_list.snippets_zh)
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM search WHERE name="' + concept + '"')
     res = cursor.fetchall()

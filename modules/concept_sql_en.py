@@ -5,11 +5,11 @@ import re
 import time
 import random
 import urllib
-import paras
+import config
 
 session_google = requests.Session()
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36'
-conn = sqlite3.connect(paras.path_list.snippets_en)
+conn = sqlite3.connect(config.path_list.snippets_en)
 cursor = conn.cursor()
 cursor.execute('CREATE TABLE IF NOT EXISTS search (name TEXT PRIMARY KEY NOT NULL, page0 TEXT NOT NULL, page1 TEXT NOT NULL, page2 TEXT NOT NULL)')
 conn.commit()
@@ -44,7 +44,7 @@ def load_snippet_google(name):
 
 def get_snippet(concept):
     global tot_crawl
-    conn = sqlite3.connect(paras.path_list.snippets_en)
+    conn = sqlite3.connect(config.path_list.snippets_en)
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM search WHERE name="' + concept + '"')
     res = cursor.fetchall()

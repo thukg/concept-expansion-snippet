@@ -2,7 +2,7 @@ import re
 import nltk
 import inflect
 import json
-import paras
+import config
 import pickle
 from nltk.tag.hunpos import HunposTagger
 
@@ -97,7 +97,7 @@ def json_gen(data):
         patterns.append(' '.join(flags))
         tot += 1
     print('json_gen:', tot)
-    with open(paras.path_list.tmp, 'w', encoding='utf-8') as f:
+    with open(config.path_list.tmp, 'w', encoding='utf-8') as f:
         for i in range(len(names)):
             encode = json.dumps(
                 {'name': names[i], 'gram': grams[i], 'gram_num': gram_num[i], 'pattern': patterns[i]}, ensure_ascii=False)
@@ -105,14 +105,14 @@ def json_gen(data):
 
 def work():
     global conversion
-    pos_tagger = HunposTagger(path_to_model=paras.path_list.hunpos_model, path_to_bin=paras.path_list.hunpos_bin)
+    pos_tagger = HunposTagger(path_to_model=config.path_list.hunpos_model, path_to_bin=config.path_list.hunpos_bin)
     conversion = inflect.engine()
-    with open(paras.path_list.en_stopwords, 'r', encoding='utf-8') as f:
+    with open(config.path_list.en_stopwords, 'r', encoding='utf-8') as f:
         stopwords = set(f.read().split('\n'))
-    with open(paras.path_list.en_kp_list, 'r', encoding='utf-8') as f:
+    with open(config.path_list.en_kp_list, 'r', encoding='utf-8') as f:
         lists = f.read().split('\n')
         print('load kp_list done.')
-    with open(paras.path_list.input, 'r', encoding='utf-8') as f:
+    with open(config.path_list.input, 'r', encoding='utf-8') as f:
         data = []
         for line in f.read().split('\n'):
             if line == '':

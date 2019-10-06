@@ -12,12 +12,12 @@ This project uses a graph propagation method with pretrained word vectors (GloVe
    - **Candidate concept lists:** [kp_list.zip](http://lfs.aminer.cn/misc/moocdata/toolkit/kp_list.zip)
    - **English word vector:** [glove.6B.zip](http://lfs.aminer.cn/misc/moocdata/toolkit/glove.6B.zip) You will find more information at [GloVe](https://nlp.stanford.edu/projects/glove/)
    - **Chinese word vector:** [sgns.baidubaike.zip](http://lfs.aminer.cn/misc/moocdata/toolkit/sgns.baidubaike.zip) You will find more information at [Chinese-Word-Vectors](https://github.com/Embedding/Chinese-Word-Vectors)
-4. modify some path lists in `paras.py` if necessary.
+4. modify some path lists in `config.py` if necessary.
 5. Install the requirements in `requirements.txt`: `pip install -r requirements.txt`
 
 ## Parameters
 
-You can run this project simply by`python main.py` with additional command line parameters. Parameters can be specified in command line or in `paras.py`.
+You can run this project simply by`python main.py` with additional command line parameters. Parameters can be specified in command line or in `config.py`.
 
 Here are the parameters available in command line:
 
@@ -33,7 +33,7 @@ decay: --decay, -d
 no_seed: --no_seed, -ns
 ```
 
-The following path lists can be modified in `paras.py`:
+The following path lists can be modified in `config.py`:
 
 ```
 zh_model, en_model: the word vectors files
@@ -51,6 +51,6 @@ To crawl Google search snippets, you need VPN (for users in Mainland China).
 
 The crawler may be blocked by anti-crawler programs if you see `get snippet timeout`infomation too many times. Rerun the code will solve this problem most of the time.
 
-You can use other word vectors by modify path lists in `paras.py` or rewrite `modules/model_load.py`. It's normal taking a long time and consuming a lot of memory to load the word vector file.
+You can use other word vectors by modify path lists in `config.py` or rewrite `modules/model_load.py`. It's normal taking a long time and consuming a lot of memory to load the word vector file.
 
 Make sure there is at least one seed word in the input text.

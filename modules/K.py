@@ -1,7 +1,7 @@
 import numpy as np
 import json
 import math
-import paras
+import config
 import pickle
 import modules.model_load as model_load
 
@@ -36,7 +36,7 @@ def load_data_set():
     grams = []
     patterns = []
     data = []
-    with open(paras.path_list.tmp, 'r', encoding='utf-8') as f:
+    with open(config.path_list.tmp, 'r', encoding='utf-8') as f:
         lines = f.read().split('\n')
         for line in lines:
             if line == '':
@@ -59,8 +59,8 @@ def load_data_set():
 def load_seed_set():
     global seed_set
     seed_set = set()
-    if not paras.path_list.no_seed:
-        with open(paras.path_list.seed, 'r', encoding='utf-8') as f:
+    if not config.path_list.no_seed:
+        with open(config.path_list.seed, 'r', encoding='utf-8') as f:
             for line in f:
                 seed_set.add(line.strip())
 
@@ -68,7 +68,7 @@ def init_score_list():
     global data, seed_set
     score_list = np.zeros(data.shape[0])
     tot = 0
-    if paras.path_list.no_seed:
+    if config.path_list.no_seed:
         for i in range(len(names)):
             score_list[i] = 1.0
             tot += 1
@@ -126,7 +126,7 @@ def graph_propagation(score_list, iter_time, decay):
     return final_score_list
 
 def kp_extraction():
-    p = paras.parameter
+    p = config.parameter
     iter_time, max_num, threshold, decay = p.iter_time, p.max_num, p.threshold, p.decay
     global model
     if model is None:
@@ -137,7 +137,7 @@ def kp_extraction():
     score_list = init_score_list()
     score_list = graph_propagation(score_list, iter_time, decay)
     sorted_list = np.argsort(-score_list)
-    with open(paras.path_list.result, 'w', encoding='utf-8') as f:
+    with open(config.path_list.result, 'w', encoding='utf-8') as f:
         for index in sorted_list:
             encode = json.dumps({'name': names[index], 'grams': grams[index], 'score': score_list[index], 'pattern': patterns[index]}, ensure_ascii=False)
             f.write(encode+'\n')

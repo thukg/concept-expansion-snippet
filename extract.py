@@ -1,14 +1,14 @@
-import paras
+import config
 import shutil
 
 def get_concepts():
     import modules.K as K
-    if paras.parameter.language == 'en':
+    if config.parameter.language == 'en':
         import modules.prework_en as prework
-    if paras.parameter.language == 'zh':
+    if config.parameter.language == 'zh':
         import modules.prework_zh as prework
-    shutil.copy(paras.path_list.input_text, paras.path_list.input)
-    shutil.copy(paras.path_list.input_seed, paras.path_list.seed)
+    shutil.copy(config.path_list.input_text, config.path_list.input)
+    shutil.copy(config.path_list.input_seed, config.path_list.seed)
     prework.work()
     K.kp_extraction()
 

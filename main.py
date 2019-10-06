@@ -1,16 +1,8 @@
-import paras
+import config
 import extract
 import expand
 import argparse
 import os
-
-def preworks():
-    if not os.path.exists('db/'):
-        os.mkdir('db/')
-    if not os.path.exists('result/'):
-        os.mkdir('result/')
-    if not os.path.exists('tmp/'):
-        os.mkdir('tmp/')
 
 def extract_concepts():
     extract.get_concepts()
@@ -19,13 +11,13 @@ def expand_concepts():
     expand.get_concepts()
 
 def main():
-    if paras.parameter.task == 'extract':
+    if config.parameter.task == 'extract':
         extract_concepts()
-    if paras.parameter.task == 'expand':
+    if config.parameter.task == 'expand':
         expand_concepts()
 
 def parse():
-    parser = argparse.ArgumentParser(description='process some parameters, the whole parameters are in paras.py')
+    parser = argparse.ArgumentParser(description='process some parameters, the whole parameters are in config.py')
     parser.add_argument('--text', type=str, help='input text file for concept extraction task')
     parser.add_argument('--seed', '-s', type=str, help='seed file for concept extraction/expansion task')
     parser.add_argument('--language', '-l', type=str, choices=['zh', 'en'], help='zh | en')
@@ -37,25 +29,24 @@ def parse():
     parser.add_argument('--noseed', '-ns', type=bool, help='if True, every candidate will be a seed')
     args = parser.parse_args()
     if args.text:
-        paras.path_list.input_text = args.text
+        config.path_list.input_text = args.text
     if args.seed:
-        paras.path_list.input_seed = args.seed
+        config.path_list.input_seed = args.seed
     if args.language:
-        paras.parameter.set_language(args.language)
+        config.parameter.set_language(args.language)
     if args.task:
-        paras.parameter.set_task(args.task)
+        config.parameter.set_task(args.task)
     if args.iter_time:
-        paras.parameter.itertime = args.iter_time
+        config.parameter.itertime = args.iter_time
     if args.max_num:
-        paras.parameter.max_num = args.max_num
+        config.parameter.max_num = args.max_num
     if args.threshold:
-        paras.parameter.threshold = args.threshold
+        config.parameter.threshold = args.threshold
     if args.decay:
-        paras.parameter.decay = args.decay
+        config.parameter.decay = args.decay
     if args.noseed:
-        paras.path_list.no_seed = True
+        config.path_list.no_seed = True
 
 if __name__ == '__main__':
-    preworks()
     parse()
     main()
